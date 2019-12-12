@@ -1,0 +1,11 @@
+**/.ipynb_checkpoints/
+.idea
+**/__pycache__/
+*.Rhistory
+*opendigitalworld_env*
+**/.env
+**/.terraform/
+**/terraform.tfstate
+frontend/graph/node_modules/
+data_processing/*.pickle
+frontend/graph/package-lock.json
