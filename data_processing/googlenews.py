@@ -15,6 +15,7 @@ load_dotenv()
 
 newsapi = NewsApiClient(api_key=os.environ.get("GOOGLE_NEWS_API"))
 
+
 @functools.lru_cache(maxsize=512)
 def html2text(url: str) -> str:
     html = urllib.request.urlopen(url).read()
@@ -41,7 +42,6 @@ def html2text(url: str) -> str:
 def process_headlines(language="en", country="gb"):
     top_headline = newsapi.get_top_headlines(
         language=language, country=country, page_size=100
-
     )
     result = []
     for article in top_headline["articles"]:
@@ -66,4 +66,3 @@ def process_headlines(language="en", country="gb"):
 
 if __name__ == "__main__":
     process_headlines()
-

@@ -7,10 +7,7 @@ from flair.data import Sentence
 from flair.models import SequenceTagger
 from langdetect import detect
 
-tagger = {
-    "de": SequenceTagger.load("de-ner"),
-    "en": SequenceTagger.load("ner")
-}
+tagger = {"de": SequenceTagger.load("de-ner"), "en": SequenceTagger.load("ner")}
 
 
 def filter_text(text: str) -> str:

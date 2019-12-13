@@ -24,7 +24,9 @@ class GetTree(Resource):
 
     @api.expect(endpoint_arguments)
     def get(self):
-        return get_recommendations_with_article(request.args.get("language"), request.args.get("country"))
+        return get_recommendations_with_article(
+            request.args.get("language"), request.args.get("country")
+        )
 
 
 @api.route("/post_interaction_data")

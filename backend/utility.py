@@ -7,18 +7,24 @@ from pandas import DataFrame
 import pandas as pd
 from typing import Tuple, Dict
 import urllib
+
 random.seed(30)
 
 
 class NoValidArticle(Exception):
     """no article can be found with the given constraints"""
+
     pass
+
 
 MAX_WIDTH = 7
 MAX_LENGTH = 10
 
+
 def process_dataframe(language, country):
-    jdf = urllib.request.urlopen(f"http://data_processing:5001/get_headlines?language={language}&country={country}").read()
+    jdf = urllib.request.urlopen(
+        f"http://data_processing:5001/get_headlines?language={language}&country={country}"
+    ).read()
     df = pd.read_json(json.loads(jdf.decode("utf-8")))
     df["lower_entities"] = df.entities.apply(
         lambda entities_set: set([i.lower() for i in entities_set])
@@ -72,7 +78,6 @@ def n_uppercase(text):
     :return: number of upper case character
     """
     return sum([char.isupper() for char in text])
-
 
 
 def validate_tree_size(tree, level=MAX_LENGTH, width=MAX_WIDTH):
@@ -182,7 +187,9 @@ def build_leaf(id, df):
     i = text.find(".")  # we take the second sentence to avoid to repeat the title
     abstract = text[i + 1 : i + 451].strip()
     result = {
-        "name": "<b>{}</b><br><a href=\"{}\"> Read the article </a>".format(recommended_article.title, recommended_article.url),
+        "name": '<b>{}</b><br><a href="{}"> Read the article </a>'.format(
+            recommended_article.title, recommended_article.url
+        ),
         "abstract": abstract,
         "id": int(id),
         "collapsed": False,
@@ -227,7 +234,11 @@ def rec_build_tree(
         unique_id = has_unique_result(new_entities, blacklist_articles, serie)
         if unique_id is None:
             next_entities = extract_selected_entity(
-                new_entities, blacklist_entities, serie, article_entity_counter, text_entity_counter
+                new_entities,
+                blacklist_entities,
+                serie,
+                article_entity_counter,
+                text_entity_counter,
             )
             children = []
             for child in next_entities:
@@ -322,7 +333,9 @@ def select_most_frequent_entities(
     return result
 
 
-def extract_selected_entity(entities, blacklist_entities, serie, article_entity_counter, text_entity_counter):
+def extract_selected_entity(
+    entities, blacklist_entities, serie, article_entity_counter, text_entity_counter
+):
     """
     Select the entities for the next level tree
     :param entities: entities to use to select the next article
@@ -336,7 +349,9 @@ def extract_selected_entity(entities, blacklist_entities, serie, article_entity_
         .union(*[s for s in filtered_serie])
         .difference(entities.union(blacklist_entities))
     )
-    return select_most_frequent_entities(full_result, article_entity_counter, text_entity_counter)
+    return select_most_frequent_entities(
+        full_result, article_entity_counter, text_entity_counter
+    )
 
 
 if __name__ == "__main__":
