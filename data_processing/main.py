@@ -26,7 +26,8 @@ class GetTree(Resource):
     def get(self):
         language = request.args.get("language")
         country = request.args.get("country")
-        return process_headlines()
+        print(f"get headline for {language} in {country}")
+        return process_headlines(language, country)
 
 
 @api.route("/healthcheck")

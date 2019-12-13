@@ -16,6 +16,8 @@ services:
     entrypoint: python /src/main.py
     ports:
       - 5001:5001
+    depends_on:
+      - db
 
   frontend:
     build: ./frontend/graph
@@ -28,12 +30,7 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-#      MYSQL_DATABASE: 'db'
-#      # So you don't have to use root, but you can if you like
-#      MYSQL_USER: 'user'
-      # You can use whatever password you like
       MYSQL_PASSWORD: 'password'
-      # Password for root access
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
       # <Port exposed> : < MySQL Port running inside container>

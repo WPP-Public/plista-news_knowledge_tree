@@ -7,7 +7,10 @@ from flair.data import Sentence
 from flair.models import SequenceTagger
 from langdetect import detect
 
-tagger = {"de": SequenceTagger.load("de-ner"), "en": SequenceTagger.load("ner")}
+tagger = {
+    "de": SequenceTagger.load("de-ner"),
+    "en": SequenceTagger.load("ner")
+}
 
 
 def filter_text(text: str) -> str:
@@ -37,6 +40,8 @@ def find_entity(text: str) -> Set[str]:
     """extract entity using flair"""
     global tagger
     filtered = filter_text(text)
+    if not filtered:
+        return set()
     language = detect(filtered)
     if language not in tagger:
         return set()

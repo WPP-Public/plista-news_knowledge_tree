@@ -24,6 +24,9 @@ class GetTree(Resource):
 
     @api.expect(endpoint_arguments)
     def get(self):
+        language = request.args.get("language")
+        country = request.args.get("country")
+        print(f"get tree for {language} in {country}")
         return get_recommendations_with_article(
             request.args.get("language"), request.args.get("country")
         )

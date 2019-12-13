@@ -3,6 +3,8 @@ import axios from 'axios';
 import '../styles/index.scss';
 //import json from '../../../../data/tree_example.json';
 
+
+
 am4core.ready(function () {
 
   // initializing themes
@@ -12,6 +14,8 @@ am4core.ready(function () {
   // create a bubble chart
   const chart = am4core.create("chartdiv", am4plugins_forceDirected.ForceDirectedTree);
   const networkSeries = chart.series.push(new am4plugins_forceDirected.ForceDirectedSeries());
+
+
 
   const initChart = (data) => {
     // bubble chart data
@@ -40,18 +44,49 @@ am4core.ready(function () {
     networkSeries.nodes.template.label.hideOversized = true;
   };
 
-//  axios.get('http://0.0.0.0:5000/get_tree?language=en&country=gb')
-  axios.get("http://0.0.0.0:5000/get_tree?language=en&country=gb")
-    .then(res => {
-      console.log(res);
-      return res['data'];
-    })
-    .then(data => {
-      initChart(data);
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
+    var languageEl = document.getElementById('language');
+    var languageElVal = 'en';
+    languageEl.addEventListener('change', function() {
+        console.log(languageEl.value);
+        languageElVal = languageEl.value;
     });
+
+    var countryEl = document.getElementById('country');
+    var countryElVal = 'gb';
+    countryEl.addEventListener('change', function() {
+        console.log(countryEl.value);
+        countryElVal = countryEl.value;
+    });
+
+    var searchEl = document.getElementById('search');
+    var searchElVal = '';
+    searchEl.addEventListener('keyup', function() {
+        console.log(searchEl.value);
+        searchElVal = searchEl.value;
+    });
+
+    var fetchBtn = document.getElementById('fetch');
+    fetchBtn.addEventListener('click', function() {
+        fecthData();
+    });
+
+
+
+    function fecthData() {
+        axios.get(`http://0.0.0.0:5000/get_tree?language=${languageElVal}&country=${countryElVal}`)
+        .then(res => {
+          console.log(res);
+          return res['data'];
+        })
+        .then(data => {
+          initChart(data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    }
+
+//    fecthData();
 
 });

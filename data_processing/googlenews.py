@@ -65,4 +65,4 @@ def process_headlines(language="en", country="gb"):
 
 
 if __name__ == "__main__":
-    process_headlines()
+    process_headlines(language="en", country="gb")
