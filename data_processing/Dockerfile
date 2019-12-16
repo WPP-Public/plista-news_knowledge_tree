@@ -9,7 +9,7 @@ RUN pip install -r requirements.txt
 RUN python -m nltk.downloader stopwords && python -m nltk.downloader punkt  && \
     python -m nltk.downloader averaged_perceptron_tagger
 
-RUN python -c 'import flair; _ = flair.models.SequenceTagger.load("de-ner"); _ = flair.models.SequenceTagger.load("ner")'
+RUN python -c 'import flair; _ = flair.models.SequenceTagger.load("de-ner"); _ = flair.models.SequenceTagger.load("ner-fast")'
 
 ADD *.py src/
 ADD .env src/

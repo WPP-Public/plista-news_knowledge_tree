@@ -9,7 +9,7 @@ from langdetect import detect
 
 tagger = {
     "de": SequenceTagger.load("de-ner"),
-    "en": SequenceTagger.load("ner")
+    "en": SequenceTagger.load("ner-fast")
 }
 
 
