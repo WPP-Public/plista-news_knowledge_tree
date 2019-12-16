@@ -2,6 +2,8 @@
 
 This repository contains the project to be able to visualize the news for your country and see what are the hot topic of the moment.
 
+![Demo](images/example.gif)
+
 ## run 
 
 After downloading your project you will need to get a google news api [here](https://newsapi.org/docs) (They have a free tier). 
