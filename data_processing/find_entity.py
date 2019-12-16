@@ -21,18 +21,23 @@ def filter_text(text: str) -> str:
     return filtered
 
 
-def format_entities(entity: Set[str]) -> Set[str]:
+def format_entities(entities: Set[str]) -> Set[str]:
     """
     Remove
     :param entity:
     :return:
     """
-    if entity[-1] in [".", ",", "?", "!", ":"]:
-        entity = entity[0:-1]
-    entity = entity.replace("\n", " ")
-    if entity == "German":
-        entity = "Germany"
-    return entity
+    result = []
+    for entity in entities:
+        if entity[-1] in [".", ",", "?", "!", ":"]:
+            entity = entity[0:-1]
+        entity = entity.replace("\n", " ")
+        if entity[-1] == "s" and entity[:-1] in entities:
+            continue
+        if not entity:
+            continue
+        result.append(entity)
+    return set(result)
 
 
 @functools.lru_cache(maxsize=512)
@@ -51,9 +56,9 @@ def find_entity(text: str) -> Set[str]:
     flair_entities = []
     for sentence in sentences:
         flair_entities.extend(
-            [format_entities(entity.text) for entity in sentence.get_spans("ner")]
+            [entity.text for entity in sentence.get_spans("ner")]
         )
-    result = set(flair_entities)
+    result = format_entities(set(flair_entities))
     return result
 
 

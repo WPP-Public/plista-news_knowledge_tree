@@ -21,26 +21,32 @@ am4core.ready(function () {
     // bubble chart data
     chart.data = [data];
 
-    // basic bubble chart options
+    // key values for the elements of the json
     networkSeries.dataFields.value = "value";
     networkSeries.dataFields.name = "name";
     networkSeries.dataFields.children = "children";
-    networkSeries.nodes.template.tooltipHTML = '{name}'; //https://www.amcharts.com/docs/v4/tutorials/clickable-links-in-tooltips/
+    networkSeries.nodes.template.label.text = "{name}";
+    networkSeries.dataFields.collapsed = "collapsed";
+
+    // html rendering
+    //https://www.amcharts.com/docs/v4/tutorials/clickable-links-in-tooltips/
+    networkSeries.nodes.template.tooltipHTML = '{name}';
     networkSeries.tooltip.keepTargetHover = true;
     networkSeries.tooltip.label.interactionsEnabled = true;
+
+    // style setting
     networkSeries.nodes.template.fillOpacity = 1;
-    networkSeries.links.template.strength = 0.8;
     networkSeries.minRadius = am4core.percent(2);
-    networkSeries.maxRadius = am4core.percent(8);
-
-
-    networkSeries.nodes.template.label.text = "{name}";
+    networkSeries.maxRadius = am4core.percent(5);
     networkSeries.fontSize = 10;
-    networkSeries.maxLevels = 2;
     networkSeries.links.template.strokeWidth = 8;
     networkSeries.links.template.strokeOpacity = 0.8;
-    networkSeries.manyBodyStrength = -15;
+
+    // attraction repulsion of the graph
+    networkSeries.centerStrength = 2;
+    networkSeries.manyBodyStrength = -50;
     networkSeries.links.template.strength = 2;
+
     networkSeries.nodes.template.label.hideOversized = true;
   };
 

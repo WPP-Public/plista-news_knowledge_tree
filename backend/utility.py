@@ -50,6 +50,7 @@ def init_entity_counters(df: DataFrame) -> Tuple[Dict[str, int], Dict[str, int]]
             text_entity_counter[entity.lower()] = text.count(
                 entity
             ) + text_entity_counter.get(entity.lower(), 0)
+
     return article_entity_counter, text_entity_counter
 
 
@@ -125,9 +126,9 @@ def validate_tree_leaves(tree):
 
 def get_recommendations_with_article(language: str, country: str):
     """
-    Build a recommendation tree
+    Build a recommendation tree for the specified language and country
 
-    :return: recommendation tree for the specified article
+    :return: recommendation tree for the specified language and country
     """
     df = process_dataframe(language, country)
     article_entity_counter, text_entity_counter = init_entity_counters(df)
@@ -149,8 +150,8 @@ def get_recommendations_with_article(language: str, country: str):
             next_step_tree = rec_build_tree(
                 child,
                 set(),
-                blacklist_entities,
-                blacklist_articles,
+                set(),
+                set(),
                 df["lower_entities"],
                 article_entity_counter,
                 cased_entities,
@@ -169,11 +170,9 @@ def get_recommendations_with_article(language: str, country: str):
         if len(children) == MAX_WIDTH:
             break
 
-    result = {"children": children, "name": "Source", "collapsed": True}
-    if validate_tree_size(result) and validate_tree_leaves(result):
-        return result
-    else:
-        return result
+    result = {"children": children, "name": "Source", "collapsed": False}
+    return result
+
 
 
 def build_leaf(id, df):
@@ -192,7 +191,7 @@ def build_leaf(id, df):
         ),
         "abstract": abstract,
         "id": int(id),
-        "collapsed": False,
+        "collapsed": True,
         "value": 1,
     }
     return result
