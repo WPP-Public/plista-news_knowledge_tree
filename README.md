@@ -4,7 +4,7 @@ This repository contains the project to be able to visualize the news for your c
 
 ![Demo](images/example.gif)
 
-## run 
+## Run 
 
 After downloading your project you will need to get a google news api [here](https://newsapi.org/docs) (They have a free tier). 
 With ythe following script you will install all  
@@ -22,7 +22,7 @@ Building the docker for the first time will take some time. it is normal :)
 You will be able to open the front end in your browser [here](http://0.0.0.0:8080/)
 
 
-## install all dependencies
+## Install all dependencies
 
 To install all the library you will need python 3.6 on you favorite environment. 
 
@@ -35,3 +35,21 @@ For the frontend you will need to have npm installed.
 cd frontend/graph
 npm install
 ```
+
+The best way to run the app is to use docker-compose. However if you really would like to run on you machine directly
+ you can start the 2 flask apps with:
+```bash
+python backend/main.py
+```
+and
+```bash
+pyton data_processing/main.py
+```
+and for the frontend you will need:
+```bash
+cd frontend/graph
+npm start
+```
+Be aware that we are using the service name as host in the code to call other services. You will need to update your 
+`/etc/hosts` to resolve the dependency. 
+
