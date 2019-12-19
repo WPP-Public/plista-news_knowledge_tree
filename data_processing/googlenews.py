@@ -53,10 +53,12 @@ def process_headlines(language="en", country="gb"):
                 entities = find_entity(article["text"])
                 set_cache_entities(article["url"], entities)
             article["entities"] = entities
-            print("Worked for", article["url"], flush=True)
+            print("It worked for", article["url"], flush=True)
             result.append(article)
         except urllib.error.HTTPError as e:
-            print(f"cannot fetch for", article["url"], e, flush=True)
+            print(f"We cannot fetch for", article["url"], e, flush=True)
+        except urllib.error.URLError as e:
+            print(f"the url is wrong", article["url"], e, flush=True)
 
     df = pd.DataFrame(result)
     with open("headline_google.pickle", "wb") as output_file:
