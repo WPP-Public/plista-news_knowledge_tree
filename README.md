@@ -4,13 +4,15 @@ This repository contains the project to be able to visualize the news for your c
 
 ![Demo](images/example.gif)
 
+if you want to know more there is the [presentation](https://docs.google.com/presentation/d/1_-y551WY2fo0FS7QD8gDgYopiVFbXQKbvAsD3NxZTxQ/edit?usp=sharing) for PyData Berlin on December 2019. 
+
 ## Run 
 
 After downloading your project you will need to get a google news api [here](https://newsapi.org/docs) (They have a free tier). 
 With ythe following script you will install all  
 ```bash
 touch data_processing/.env
-echo GOOGLE_NEWS_API=$YOUR_KEY_FROM_GOOGLE_NEWSAPI >> data_processing/.env
+echo GOOGLE_NEWS_API=$YOUR_KEY_FROM_GOOGLE_NEWSAPI > data_processing/.env
 ```
 
 To run the project you can just start docker compose
