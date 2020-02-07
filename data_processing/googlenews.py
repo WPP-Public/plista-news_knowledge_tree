@@ -5,7 +5,7 @@ import urllib
 import os
 from bs4 import BeautifulSoup
 from readability import Document
-from find_entity import find_entity, tagger
+from find_entity import find_entity
 import pickle
 import pandas as pd
 from mysql_caching import set_cache_entities, get_cached_entities
@@ -18,7 +18,8 @@ newsapi = NewsApiClient(api_key=os.environ.get("GOOGLE_NEWS_API"))
 
 @functools.lru_cache(maxsize=512)
 def html2text(url: str) -> str:
-    html = urllib.request.urlopen(url).read()
+    request = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:72.0) Gecko/20100101 Firefox/72.0'})
+    html = urllib.request.urlopen(request).read()
     doc = Document(html)
     cleaned = "<h2>" + doc.short_title() + "</h2><br/>" + doc.summary()
     soup = BeautifulSoup(cleaned, features="html.parser")
@@ -50,7 +51,7 @@ def process_headlines(language="en", country="gb"):
             article["text"] = html2text(article["url"])
             entities = get_cached_entities(article["url"])
             if entities is None:
-                entities = find_entity(article["text"])
+                entities = find_entity(article["text"], language=language)
                 set_cache_entities(article["url"], entities)
             article["entities"] = entities
             print("It worked for", article["url"], flush=True)

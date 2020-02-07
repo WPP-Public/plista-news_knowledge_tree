@@ -7,10 +7,15 @@ from flair.data import Sentence
 from flair.models import SequenceTagger
 from langdetect import detect
 
-tagger = {
-    "de": SequenceTagger.load("de-ner"),
-    "en": SequenceTagger.load("ner-fast")
-}
+
+@functools.lru_cache(maxsize=1)
+def get_tagger(language: str) -> SequenceTagger:
+    """Return the tagger needed """
+    if language == "de":
+        return SequenceTagger.load("de-ner")
+    if language == "en":
+        return SequenceTagger.load("ner-fast")
+    raise Exception("Invalid language")
 
 
 def filter_text(text: str) -> str:
@@ -41,18 +46,19 @@ def format_entities(entities: Set[str]) -> Set[str]:
 
 
 @functools.lru_cache(maxsize=512)
-def find_entity(text: str) -> Set[str]:
+def find_entity(text: str, language: str) -> Set[str]:
     """extract entity using flair"""
     global tagger
     filtered = filter_text(text)
     if not filtered:
         return set()
-    language = detect(filtered)
-    if language not in tagger:
+    detected_language = detect(filtered)
+    if language != detected_language:
         return set()
     sent_tokens = nltk.sent_tokenize(filtered)
     sentences = [Sentence(i) for i in sent_tokens]
-    tagger[language].predict(sentences)
+    tagger = get_tagger(language)
+    tagger.predict(sentences)
     flair_entities = []
     for sentence in sentences:
         flair_entities.extend(
