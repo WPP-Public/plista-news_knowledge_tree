@@ -3,5 +3,5 @@ flask-restplus==0.13.0
 flask-cors==3.0.8
 pandas==1.0.1
 pickleshare==0.7.5
-Werkzeug==0.16.1
+Werkzeug==2.3.8
 
