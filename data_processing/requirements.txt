@@ -1,6 +1,6 @@
 torch==1.4.0
 flair==0.4.5
-nltk==3.4.5
+nltk==3.6.6
 pandas==1.0.1
 python-dotenv==0.10.5
 langdetect==1.0.7
