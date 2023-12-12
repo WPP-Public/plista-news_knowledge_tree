@@ -8,7 +8,7 @@ requests==2.22.0
 Flask==1.1.1
 flask-restplus==0.13.0
 flask-cors==3.0.8
-Werkzeug==0.16.1
+Werkzeug==2.3.8
 newsapi-python==0.2.6
 beautifulsoup4==4.8.2
 readability-lxml==0.7.1
